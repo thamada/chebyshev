@@ -1,4 +1,5 @@
 build:
+	mkdir -p work
 	python3 ./main.py
 
 setup:
