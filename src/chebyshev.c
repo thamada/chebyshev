@@ -4,21 +4,6 @@
 #define N 1  // チェビシェフ多項式の次数
 
 // チェビシェフ多項式の計算関数
-/**
-void chebyshev_coefficients(double (*f)(double), double a, double b, int n, double* coeff) {
-    for (int k = 0; k <= n; k++) {
-        double sum = 0.0;
-        for (int i = 0; i <= n+1; i++) {
-            double x_i = cos(M_PI * (2 * i + 1) / (2.0 * (n + 1)));
-            double x_mapped = 0.5 * (b - a) * (x_i + 1) + a;
-            sum += f(x_mapped) * cos(k * M_PI * (2 * i + 1) / (2.0 * (n + 1)));
-        }
-        coeff[k] = (2.0 / (n + 1)) * sum;
-    }
-    coeff[0] *= 0.5;  // 最初の係数は半分にする
-}
-*/
-
 void chebyshev_coefficients(double (*f)(double), double a, double b, int n, double* coeff) {
     for (int k = 0; k <= n; k++) {
         double sum = 0.0;
@@ -53,9 +38,12 @@ double chebyshev_interpolate(double x, double a, double b, int n, double* coeff)
 
 // 対象の関数
 double func(double x) {
-  //   return log(1 + x);
-  //  return x*(x-0.25)*(x-0.5)*(x-1.0);
-  return x*(x-0.5)*(x-1.0);
+  //return sin(16.0 * 3.14 * x);
+  //return log(1 + x);
+  //return x*(x-0.25)*(x-0.5)*(x-1.0);
+  //return x*(x-0.5)*(x-1.0);
+  return 1.0/(1.0 + 25.0 * x * x);
+  //return (x-0.2) * (x-0.4) * (x-0.6) * (x-0.8) * (x-1.0);
 }
 
 int main() {
