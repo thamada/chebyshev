@@ -1,3 +1,3 @@
 build:
-	gcc chebyshev2.c -o run.x
+	gcc chebyshev.c -o run.x
 
