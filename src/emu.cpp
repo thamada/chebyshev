@@ -9,7 +9,7 @@ public:
     string i2slx(int i){ // int to string as long long hexel-format
         char strbuf[20];   
         string s;
-        sprintf(strbuf ,"0x%llxULL",(long long int)i);
+        snprintf(strbuf, sizeof(strbuf), "0x%llxULL",(long long int)i);
         s = strbuf;
         return s;
     }
@@ -17,7 +17,7 @@ public:
     string i2sx(int i){ // int to string as hexel-format
         char strbuf[20];
         string s;
-        sprintf(strbuf ,"0x%x",i);
+        snprintf(strbuf, sizeof(strbuf), "0x%x",i);
         s = strbuf;
         return s;
     }
@@ -25,20 +25,22 @@ public:
     string i2s(int i){
         char strbuf[11];
         string s;
-        sprintf(strbuf ,"%d",i);
+        snprintf(strbuf, sizeof(strbuf), "%d",i);
         s = strbuf;
         return s;
     }
 
     string i2mask(int i){
         string s;
-        if(i<33){
+        if(i<32){
             unsigned int mask;
             //mask = (unsigned int)(pow(2.0,(double)i)-1.0);
             mask = (1U << i) - 1;
-            char strbuf[8];
+            char strbuf[11];
             snprintf(strbuf, sizeof(strbuf), "0x%X", mask);
             s = strbuf;
+        } else if (i == 32) {
+            s = "0xFFFFFFFF";
         }else if(i<65){
             /* FIND BUG! (if i=54,55,56,57,58,59,60,61,....) */
             /*
@@ -101,7 +103,7 @@ public:
         d = pow(2.0,(double)i);
         char strbuf[4];
         string s;
-        sprintf(strbuf ,"%f",d);
+        snprintf(strbuf, sizeof(strbuf), "%f",d);
         s = strbuf;
         return s;
     }
@@ -199,6 +201,9 @@ void generate_c_pg_conv_ftol_itp()
     int nstage   = 1;   // atoi(args[5].c_str()); nstage += 0;
     int ncut     = 4;   // atoi(args[6].c_str());
     int bit_ext  = 2;   // fixed length
+
+    if (nstage>7777) exit(-1);
+
 
     if((ncut<2)||(ncut>nbit_man)){
         ncut = (int)(nbit_man/2.0 +0.5);
